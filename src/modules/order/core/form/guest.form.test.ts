@@ -46,3 +46,44 @@ describe('Remove a guest', () => {
     expect(state).toEqual(emptyInitialState);
   });
 });
+
+describe('Add an organizer', () => {
+  it('should not set organiserId when guest does not exist', () => {
+    const state = form.changeOrganizer(emptyInitialState, '1');
+    expect(state.organizerId).toBeUndefined();
+  });
+
+  it('should set organiserId when guest  exist', () => {
+    const state = form.changeOrganizer(singleGuestState, '1');
+    expect(state.organizerId).toEqual('1');
+  });
+});
+
+describe('Is submitable', () => {
+  it('should not be submitable when there is no organizer', () => {
+    const isSubmittable = form.isSubmittable(emptyInitialState);
+    expect(isSubmittable).toBe(false);
+  });
+
+  it('should submitable when there is an organizer', () => {
+    const withOrganizer = { ...singleGuestState, organizerId: '1' };
+    const isSubmittable = form.isSubmittable(withOrganizer);
+    expect(isSubmittable).toBe(true);
+  });
+});
+
+describe('Update guest', () => {
+  it.each([
+    { key: 'firstName' as keyof OrderingDomainModel.Guest, value: 'Jane' },
+    { key: 'lastName' as keyof OrderingDomainModel.Guest, value: 'Wick' },
+    { key: 'age' as keyof OrderingDomainModel.Guest, value: 42 },
+  ])("should update guest's %s", ({ key, value }) => {
+    const state = form.updateGuest(singleGuestState, '1', key, value);
+    expect(state.guests[0][key]).toBe(value);
+  });
+
+  it('should not update when guest does not exist', () => {
+    const state = form.updateGuest(singleGuestState, '12', 'firstName', 'Jane');
+    expect(state.guests[0].firstName).toBe('John');
+  });
+});

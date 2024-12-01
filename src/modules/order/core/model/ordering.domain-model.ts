@@ -3,6 +3,7 @@ export namespace OrderingDomainModel {
     guests: Guest[];
     organizerId?: string;
   };
+
   export type Guest = {
     id: string;
     firstName: string;

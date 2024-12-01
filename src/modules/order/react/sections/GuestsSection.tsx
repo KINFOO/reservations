@@ -1,7 +1,18 @@
 'use client';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, FormControl, FormLabel, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { useGestsSection } from '@ratatouille/modules/order/react/sections/use-guests-section';
 
 export const GuestsSection: React.FC<{}> = () => {
@@ -11,12 +22,14 @@ export const GuestsSection: React.FC<{}> = () => {
       <Typography variant={'h5'}>Invités</Typography>
       <Grid sx={{ paddingTop: 2 }} rowSpacing={4}>
         {presenter.form.guests.map((guest, i) => (
-          <Box key={i}>
+          <Box key={guest.id}>
             <GuestRow
               id={guest.id}
               firstName={guest.firstName}
               lastName={guest.lastName}
               age={guest.age}
+              isOrganizer={presenter.form.organizerId === guest.id}
+              changeOrganizer={() => presenter.changeOrganizer(guest.id)}
               onChange={presenter.updateGuest}
               remove={presenter.removeGuest}
             />
@@ -31,7 +44,7 @@ export const GuestsSection: React.FC<{}> = () => {
           </Button>
         </Grid>
         <Grid item>
-          <Button variant={'contained'} onClick={presenter.onNext} disabled={presenter.isSubmittable}>
+          <Button variant={'contained'} onClick={presenter.onNext} disabled={!presenter.isSubmittable}>
             Suivant
           </Button>
         </Grid>
@@ -45,9 +58,15 @@ export const GuestRow: React.FC<{
   firstName: string;
   lastName: string;
   age: number;
-  onChange: (id: string, key: string, value: string | number) => void;
+  isOrganizer: boolean;
+  onChange: <T extends keyof OrderingDomainModel.Guest>(
+    id: string,
+    key: T,
+    value: OrderingDomainModel.Guest[T]
+  ) => void;
+  changeOrganizer: (id: string) => void;
   remove: (id: string) => void;
-}> = ({ id, firstName, lastName, age, onChange, remove }) => {
+}> = ({ id, firstName, lastName, age, isOrganizer, changeOrganizer, onChange, remove }) => {
   return (
     <Box>
       <Grid container direction={'row'} alignItems={'center'} spacing={1}>
@@ -68,6 +87,12 @@ export const GuestRow: React.FC<{
             <FormLabel>Âge</FormLabel>
             <TextField value={age} onChange={(e) => onChange(id, 'age', parseInt(e.target.value))} />
           </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={<Checkbox checked={isOrganizer} onChange={() => changeOrganizer(id)} />}
+            label="Organisateur"
+          />
         </Grid>
         <Box sx={{ marginTop: 2 }}>
           <Button variant={'contained'} color={'error'} startIcon={<DeleteIcon />} onClick={() => remove(id)}>
