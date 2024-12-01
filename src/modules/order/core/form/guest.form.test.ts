@@ -10,21 +10,25 @@ class StubIdGenerator implements IIDProvider {
 
 const idGenerator = new StubIdGenerator();
 const form = new GuestForm(idGenerator);
-const emptyInitialState: OrderingDomainModel.Guest[] = [];
-const singleUserState: OrderingDomainModel.Guest[] = [{ id: '1', firstName: 'John', lastName: 'Doe', age: 0 }];
+const emptyInitialState: OrderingDomainModel.Form = { guests: [] };
+const singleGuestState: OrderingDomainModel.Form = {
+  guests: [{ id: '1', firstName: 'John', lastName: 'Doe', age: 0 }],
+};
 
 describe('Add a guest', () => {
   it('should add a guest', () => {
     const state = form.addGuest(emptyInitialState);
-    expect(state).toEqual(singleUserState);
+    expect(state).toEqual(singleGuestState);
   });
 
   it('should add a guest when there is already one', () => {
-    const state = form.addGuest(singleUserState);
-    expect(state).toEqual([
-      { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
-      { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
-    ]);
+    const state = form.addGuest(singleGuestState);
+    expect(state).toEqual({
+      guests: [
+        { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
+        { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
+      ],
+    });
   });
 });
 
@@ -35,8 +39,10 @@ describe('Remove a guest', () => {
   });
 
   it('should remove a guest from an id', () => {
-    const [{ id }] = singleUserState;
-    const state = form.removeGuest(singleUserState, id);
-    expect(state).toEqual([]);
+    const {
+      guests: [{ id }],
+    } = singleGuestState;
+    const state = form.removeGuest(singleGuestState, id);
+    expect(state).toEqual(emptyInitialState);
   });
 });

@@ -8,9 +8,9 @@ export const GuestsSection: React.FC<{}> = () => {
   const presenter = useGestsSection();
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography variant="h5">Invités</Typography>
+      <Typography variant={'h5'}>Invités</Typography>
       <Grid sx={{ paddingTop: 2 }} rowSpacing={4}>
-        {presenter.guests.map((guest, i) => (
+        {presenter.form.guests.map((guest, i) => (
           <Box key={i}>
             <GuestRow
               id={guest.id}
