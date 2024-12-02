@@ -1,5 +1,6 @@
 import { IIDProvider } from '@ratatouille/core/id-provider';
 import { GuestForm } from '@ratatouille/modules/order/core/form/guest.form';
+import { GuestFactory } from '@ratatouille/modules/order/core/model/guest-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 
 class StubIdGenerator implements IIDProvider {
@@ -11,9 +12,8 @@ class StubIdGenerator implements IIDProvider {
 const idGenerator = new StubIdGenerator();
 const form = new GuestForm(idGenerator);
 const emptyInitialState: OrderingDomainModel.Form = { guests: [] };
-const singleGuestState: OrderingDomainModel.Form = {
-  guests: [{ id: '1', firstName: 'John', lastName: 'Doe', age: 0 }],
-};
+const johnDoe = GuestFactory.create({ id: '1', firstName: 'John', lastName: 'Doe', age: 24 });
+const singleGuestState: OrderingDomainModel.Form = { guests: [johnDoe] };
 const singleOrganizerState = { ...singleGuestState, organizerId: '1' };
 
 describe('Add a guest', () => {
@@ -25,10 +25,7 @@ describe('Add a guest', () => {
   it('should add a guest when there is already one', () => {
     const state = form.addGuest(singleGuestState);
     expect(state).toEqual({
-      guests: [
-        { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
-        { id: '1', firstName: 'John', lastName: 'Doe', age: 0 },
-      ],
+      guests: [johnDoe, johnDoe],
     });
   });
 });
@@ -79,6 +76,12 @@ describe('Is submitable', () => {
 
   it('should not be submitable when organizer is deleted', () => {
     const state = form.removeGuest(singleOrganizerState, '1');
+    const isSubmittable = form.isSubmittable(state);
+    expect(isSubmittable).toBe(false);
+  });
+
+  it.each([{ age: 0 }, { firstName: '' }, { lastName: '' }])('when guest is invalid', (partialGuest) => {
+    const state = { guests: [{ ...johnDoe, ...partialGuest }], organizerId: '1' };
     const isSubmittable = form.isSubmittable(state);
     expect(isSubmittable).toBe(false);
   });

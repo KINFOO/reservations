@@ -1,4 +1,5 @@
 import { IIDProvider } from '@ratatouille/core/id-provider';
+import { GuestFactory } from '@ratatouille/modules/order/core/model/guest-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { produce } from 'immer';
 
@@ -8,7 +9,7 @@ export class GuestForm {
   addGuest(state: OrderingDomainModel.Form) {
     return produce(state, (draft) => {
       const id = this.idProvider.generate();
-      draft.guests.push({ id, firstName: 'John', lastName: 'Doe', age: 0 });
+      draft.guests.push(GuestFactory.create({ id, firstName: 'John', lastName: 'Doe', age: 24 }));
     });
   }
 
@@ -31,8 +32,10 @@ export class GuestForm {
     });
   }
 
-  isSubmittable({ organizerId }: OrderingDomainModel.Form) {
-    return typeof organizerId === 'string';
+  isSubmittable({ organizerId, guests }: OrderingDomainModel.Form) {
+    return (
+      typeof organizerId === 'string' && guests.every((guest) => guest.firstName && guest.lastName && guest.age > 0)
+    );
   }
 
   updateGuest<T extends keyof OrderingDomainModel.Guest>(
