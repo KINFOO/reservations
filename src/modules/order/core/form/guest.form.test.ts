@@ -14,6 +14,7 @@ const emptyInitialState: OrderingDomainModel.Form = { guests: [] };
 const singleGuestState: OrderingDomainModel.Form = {
   guests: [{ id: '1', firstName: 'John', lastName: 'Doe', age: 0 }],
 };
+const singleOrganizerState = { ...singleGuestState, organizerId: '1' };
 
 describe('Add a guest', () => {
   it('should add a guest', () => {
@@ -53,9 +54,15 @@ describe('Add an organizer', () => {
     expect(state.organizerId).toBeUndefined();
   });
 
-  it('should set organiserId when guest  exist', () => {
+  it('should set organiserId when guest exist', () => {
     const state = form.changeOrganizer(singleGuestState, '1');
     expect(state.organizerId).toEqual('1');
+  });
+
+  it('should unset organiserId when guest is deleted', () => {
+    const initalState = form.changeOrganizer(singleGuestState, '1');
+    const state = form.removeGuest(initalState, '1');
+    expect(state.organizerId).toBeUndefined();
   });
 });
 
@@ -66,9 +73,14 @@ describe('Is submitable', () => {
   });
 
   it('should submitable when there is an organizer', () => {
-    const withOrganizer = { ...singleGuestState, organizerId: '1' };
-    const isSubmittable = form.isSubmittable(withOrganizer);
+    const isSubmittable = form.isSubmittable(singleOrganizerState);
     expect(isSubmittable).toBe(true);
+  });
+
+  it('should not be submitable when organizer is deleted', () => {
+    const state = form.removeGuest(singleOrganizerState, '1');
+    const isSubmittable = form.isSubmittable(state);
+    expect(isSubmittable).toBe(false);
   });
 });
 

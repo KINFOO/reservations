@@ -44,7 +44,7 @@ export const GuestsSection: React.FC<{}> = () => {
           </Button>
         </Grid>
         <Grid item>
-          <Button variant={'contained'} onClick={presenter.onNext} disabled={!presenter.isSubmittable}>
+          <Button variant={'contained'} onClick={presenter.onNext} disabled={!presenter.isSubmittable()}>
             Suivant
           </Button>
         </Grid>

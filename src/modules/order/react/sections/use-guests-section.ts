@@ -38,5 +38,5 @@ export const useGestsSection = () => {
   const guestForm = useRef(new GuestForm(idProvider));
   const [form, setForm] = useState<OrderingDomainModel.Form>({ guests: [] });
 
-  return { form, addGuests, removeGuest, updateGuest, changeOrganizer, onNext, isSubmittable: isSubmittable() };
+  return { form, addGuests, removeGuest, updateGuest, changeOrganizer, onNext, isSubmittable };
 };
