@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { useGestsSection } from '@ratatouille/modules/order/react/sections/use-guests-section';
+import { useGestsSection } from '@ratatouille/modules/order/react/sections/guest/use-guests-section';
 
 export const GuestsSection: React.FC<{}> = () => {
   const presenter = useGestsSection();

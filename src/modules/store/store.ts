@@ -1,8 +1,9 @@
 import { useDispatch } from 'react-redux';
 
+import { registerOrderingStepListener } from '@ratatouille/modules/order/core/store/ordering-step.listener';
 import { orderingReducer } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { Dependencies } from '@ratatouille/modules/store/dependencies';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 
 const reducers = combineReducers({ ordering: orderingReducer });
 
@@ -17,11 +18,14 @@ export const createStore = (config: { initialState?: AppState; dependencies: Dep
     reducer: reducers,
     devTools: true,
     middleware: (getDefaultMiddleware) => {
+      const listener = createListenerMiddleware();
+      registerOrderingStepListener(listener);
+
       return getDefaultMiddleware({
         thunk: {
           extraArgument: config.dependencies,
         },
-      });
+      }).prepend(listener.middleware);
     },
   });
 
