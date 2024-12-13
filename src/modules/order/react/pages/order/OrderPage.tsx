@@ -1,7 +1,7 @@
 'use client';
 import { useSelector } from 'react-redux';
 
-import { OrderingStep } from '@ratatouille/modules/order/core/store/ordering.slice';
+import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { GuestsSection } from '@ratatouille/modules/order/react/sections/guest/GuestsSection';
 import { MealsSection } from '@ratatouille/modules/order/react/sections/meals/MealsSection';
 import { ReservedSection } from '@ratatouille/modules/order/react/sections/reserved/ReservedSection';
@@ -14,11 +14,11 @@ export const OrderPage: React.FC = () => {
   const step = useSelector((state: AppState) => state.ordering.step);
   return (
     <main>
-      {step === OrderingStep.GUESTS && <GuestsSection />}
-      {step === OrderingStep.MEALS && <MealsSection />}
-      {step === OrderingStep.TABLE && <TableSection />}
-      {step === OrderingStep.SUMMARY && <SummarySection />}
-      {step === OrderingStep.RESERVED && <ReservedSection />}
+      {step === OrderingDomainModel.Step.GUESTS && <GuestsSection />}
+      {step === OrderingDomainModel.Step.MEALS && <MealsSection />}
+      {step === OrderingDomainModel.Step.TABLE && <TableSection />}
+      {step === OrderingDomainModel.Step.SUMMARY && <SummarySection />}
+      {step === OrderingDomainModel.Step.RESERVED && <ReservedSection />}
     </main>
   );
 };
