@@ -1,6 +1,6 @@
 import { GuestFactory } from '@ratatouille/modules/order/core/model/guest-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { orderingActions, OrderingStep } from '@ratatouille/modules/order/core/store/ordering.slice';
+import { orderingActions } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { createTestStore } from '@ratatouille/modules/testing/tests-environment';
 
 describe('Choose guests use case', () => {
@@ -13,6 +13,6 @@ describe('Choose guests use case', () => {
     store.dispatch(orderingActions.chooseGuests(form));
 
     expect(store.getState().ordering.form).toEqual(form);
-    expect(store.getState().ordering.step).toBe(OrderingStep.TABLE);
+    expect(store.getState().ordering.step).toBe(OrderingDomainModel.Step.TABLE);
   });
 });

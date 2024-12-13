@@ -1,4 +1,12 @@
 export namespace OrderingDomainModel {
+  export enum Step {
+    GUESTS = 0,
+    TABLE = 1,
+    MEALS = 2,
+    SUMMARY = 3,
+    RESERVED = 4,
+  }
+
   export type Form = {
     guests: Guest[];
     organizerId?: string;
@@ -9,5 +17,11 @@ export namespace OrderingDomainModel {
     firstName: string;
     lastName: string;
     age: number;
+  };
+
+  export type Table = {
+    id: string;
+    title: string;
+    capacity: number;
   };
 }

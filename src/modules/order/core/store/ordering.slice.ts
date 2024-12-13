@@ -1,21 +1,15 @@
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export enum OrderingStep {
-  GUESTS = 0,
-  TABLE = 1,
-  MEALS = 2,
-  SUMMARY = 3,
-  RESERVED = 4,
-}
-
 export type OrderingState = {
   form: OrderingDomainModel.Form;
-  step: OrderingStep;
+  step: OrderingDomainModel.Step;
+  avialableTables: { data: OrderingDomainModel.Table[] };
 };
 
 export const initialState: OrderingState = {
-  step: OrderingStep.GUESTS,
+  avialableTables: { data: [] },
+  step: OrderingDomainModel.Step.GUESTS,
   form: {
     guests: [],
   },
@@ -25,11 +19,14 @@ export const orderingSlice = createSlice({
   name: 'ordering',
   initialState,
   reducers: {
-    setStep(state, action: PayloadAction<OrderingStep>) {
+    setStep(state, action: PayloadAction<OrderingDomainModel.Step>) {
       state.step = action.payload;
     },
     chooseGuests(state, action: PayloadAction<OrderingDomainModel.Form>) {
       state.form = action.payload;
+    },
+    storeTables(state, action: PayloadAction<OrderingDomainModel.Table[]>) {
+      state.avialableTables.data = action.payload;
     },
   },
 });
