@@ -9,4 +9,11 @@ export const registerOrderingStepListener = (listener: ListenerMiddlewareInstanc
       api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.TABLE));
     },
   });
+
+  listener.startListening({
+    actionCreator: orderingSlice.actions.chooseTable,
+    effect: (_, api) => {
+      api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.MEALS));
+    },
+  });
 };
