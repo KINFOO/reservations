@@ -9,8 +9,24 @@ describe('Fetch table use case', () => {
       dependencies: { tableGateway: { getTables: () => Promise.resolve(listOfTables) } },
     });
 
-    await store.dispatch(fetchTables);
+    const promise = store.dispatch(fetchTables);
+
+    expect(store.getState().ordering.avialableTables.status).toBe('loading');
+
+    await promise;
 
     expect(store.getState().ordering.avialableTables.data).toEqual(listOfTables);
+    expect(store.getState().ordering.avialableTables.status).toBe('success');
+  });
+
+  it('should handle fetch table error', async () => {
+    const store = createTestStore({
+      dependencies: { tableGateway: { getTables: () => Promise.reject(new Error('Unable to fetch tables')) } },
+    });
+
+    await store.dispatch(fetchTables);
+
+    expect(store.getState().ordering.avialableTables.status).toBe('error');
+    expect(store.getState().ordering.avialableTables.data).toEqual([]);
   });
 });
