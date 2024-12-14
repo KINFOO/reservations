@@ -1,4 +1,6 @@
 import { TableFactory } from '@ratatouille/modules/order/core/model/table-factory';
+import { FailingTableGateway } from '@ratatouille/modules/order/core/testing/failing-table-gateway';
+import { StubTableGateway } from '@ratatouille/modules/order/core/testing/stub-table-gateway';
 import { fetchTables } from '@ratatouille/modules/order/core/useCases/fetch-table.usecase';
 import { createTestStore } from '@ratatouille/modules/testing/tests-environment';
 
@@ -6,7 +8,7 @@ describe('Fetch table use case', () => {
   it('should fetch table', async () => {
     const listOfTables = [TableFactory.create({ id: '1' })];
     const store = createTestStore({
-      dependencies: { tableGateway: { getTables: () => Promise.resolve(listOfTables) } },
+      dependencies: { tableGateway: new StubTableGateway(listOfTables) },
     });
 
     const promise = store.dispatch(fetchTables);
@@ -21,7 +23,7 @@ describe('Fetch table use case', () => {
 
   it('should handle fetch table error', async () => {
     const store = createTestStore({
-      dependencies: { tableGateway: { getTables: () => Promise.reject(new Error('Unable to fetch tables')) } },
+      dependencies: { tableGateway: new FailingTableGateway() },
     });
 
     await store.dispatch(fetchTables);
