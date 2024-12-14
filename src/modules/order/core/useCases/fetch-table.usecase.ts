@@ -2,7 +2,7 @@ import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.sl
 import { Dependencies } from '@ratatouille/modules/store/dependencies';
 import { AppDispatch, AppGetState } from '@ratatouille/modules/store/store';
 
-export const fetchTables = async (dispatch: AppDispatch, state: AppGetState, dependencies: Dependencies) => {
+export const fetchTables = async (dispatch: AppDispatch, _: AppGetState, dependencies: Dependencies) => {
   dispatch(orderingSlice.actions.handleTablesLoading());
   try {
     const tables = await dependencies.tableGateway.getTables();

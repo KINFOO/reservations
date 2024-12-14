@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 
+import { registerFetcherListener } from '@ratatouille/modules/order/core/store/fetcher.listener';
 import { registerOrderingStepListener } from '@ratatouille/modules/order/core/store/ordering-step.listener';
 import { orderingReducer } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { Dependencies } from '@ratatouille/modules/store/dependencies';
@@ -20,6 +21,7 @@ export const createStore = (config: { initialState?: AppState; dependencies: Dep
     middleware: (getDefaultMiddleware) => {
       const listener = createListenerMiddleware();
       registerOrderingStepListener(listener);
+      registerFetcherListener(listener);
 
       return getDefaultMiddleware({
         thunk: {
