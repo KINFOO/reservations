@@ -11,6 +11,13 @@ export const registerOrderingStepListener = (listener: ListenerMiddlewareInstanc
   });
 
   listener.startListening({
+    actionCreator: orderingSlice.actions.chooseMeal,
+    effect: (_, api) => {
+      api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.SUMMARY));
+    },
+  });
+
+  listener.startListening({
     actionCreator: orderingSlice.actions.chooseTable,
     effect: (_, api) => {
       api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.MEALS));

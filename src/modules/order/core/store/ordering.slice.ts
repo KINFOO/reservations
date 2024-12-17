@@ -30,6 +30,9 @@ export const orderingSlice = createSlice({
     chooseGuests(state, action: PayloadAction<OrderingDomainModel.Form>) {
       state.form = action.payload;
     },
+    chooseMeal(state, action: PayloadAction<OrderingDomainModel.Form>) {
+      state.form = action.payload;
+    },
     chooseTable(state, action: PayloadAction<string>) {
       state.form.tableId = action.payload;
     },
