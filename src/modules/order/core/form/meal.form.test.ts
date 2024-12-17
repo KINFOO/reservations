@@ -199,4 +199,21 @@ describe('Assigning meals', () => {
       expect(result).toEqual(form);
     });
   });
+
+  describe('meal form is submittable', () => {
+    const unsubmittalbleForm: OrderingDomainModel.Form = {
+      guests: [GuestFactory.create()],
+    };
+
+    const submittalbleForm: OrderingDomainModel.Form = {
+      guests: [GuestFactory.create({ meals: { mainCourse: regularMainCourse.id } })],
+    };
+
+    it.each([
+      { key: 'no main course is not submittable', form: unsubmittalbleForm, isSubmittable: false },
+      { key: 'main course is submittable', form: submittalbleForm, isSubmittable: true },
+    ])('is %s submittable', ({ form, isSubmittable }) => {
+      expect(mealForm.isSubmittable(form)).toBe(isSubmittable);
+    });
+  });
 });

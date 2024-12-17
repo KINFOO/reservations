@@ -105,4 +105,8 @@ export class MealForm {
       }
     });
   }
+
+  isSubmittable(form: OrderingDomainModel.Form) {
+    return form.guests.every((guest) => guest.meals.mainCourse);
+  }
 }
