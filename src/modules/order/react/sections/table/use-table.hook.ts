@@ -27,7 +27,7 @@ export const useTable = () => {
 
   const dispatch = useAppDispatch();
   const [assignedTableId, setAssignedTableId] = useState<string | undefined>();
-  const availableTables = useSelector((state: AppState) => state.ordering.avialableTables.data);
+  const availableTables = useSelector((state: AppState) => state.ordering.availableTables.data);
 
   return { assignedTableId, availableTables, onNext, onPrevious, assignTable, isSubmittable };
 };

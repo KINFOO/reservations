@@ -13,12 +13,12 @@ describe('Fetch table use case', () => {
 
     const promise = store.dispatch(fetchTables);
 
-    expect(store.getState().ordering.avialableTables.status).toBe('loading');
+    expect(store.getState().ordering.availableTables.status).toBe('loading');
 
     await promise;
 
-    expect(store.getState().ordering.avialableTables.data).toEqual(listOfTables);
-    expect(store.getState().ordering.avialableTables.status).toBe('success');
+    expect(store.getState().ordering.availableTables.data).toEqual(listOfTables);
+    expect(store.getState().ordering.availableTables.status).toBe('success');
   });
 
   it('should handle fetch table error', async () => {
@@ -28,7 +28,7 @@ describe('Fetch table use case', () => {
 
     await store.dispatch(fetchTables);
 
-    expect(store.getState().ordering.avialableTables.status).toBe('error');
-    expect(store.getState().ordering.avialableTables.data).toEqual([]);
+    expect(store.getState().ordering.availableTables.status).toBe('error');
+    expect(store.getState().ordering.availableTables.data).toEqual([]);
   });
 });

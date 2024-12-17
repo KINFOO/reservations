@@ -1,14 +1,18 @@
-import { AppState, createStore } from "@ratatouille/modules/store/store";
-import { Dependencies } from "@ratatouille/modules/store/dependencies";
+import { StubIdProvider } from '@ratatouille/core/stub-id-providers';
+import { StubMealGateway } from '@ratatouille/modules/order/core/testing/stub-meal-gateway';
+import { StubTableGateway } from '@ratatouille/modules/order/core/testing/stub-table-gateway';
+import { Dependencies } from '@ratatouille/modules/store/dependencies';
+import { AppState, createStore } from '@ratatouille/modules/store/store';
 
 /**
  * Create testing dependencies with provided defaults
  * @param dependencies
  * @returns
  */
-const createDependencies = (
-  dependencies?: Partial<Dependencies>
-): Dependencies => ({
+const createDependencies = (dependencies?: Partial<Dependencies>): Dependencies => ({
+  idProvider: new StubIdProvider(),
+  tableGateway: new StubTableGateway(),
+  mealGateway: new StubMealGateway(),
   ...dependencies,
 });
 

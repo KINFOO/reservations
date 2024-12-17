@@ -1,15 +1,9 @@
-import { IIDProvider } from '@ratatouille/core/id-provider';
+import { StubIdProvider } from '@ratatouille/core/stub-id-providers';
 import { GuestForm } from '@ratatouille/modules/order/core/form/guest.form';
 import { GuestFactory } from '@ratatouille/modules/order/core/model/guest-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 
-class StubIdGenerator implements IIDProvider {
-  generate(): string {
-    return '1';
-  }
-}
-
-const idGenerator = new StubIdGenerator();
+const idGenerator = new StubIdProvider();
 const form = new GuestForm(idGenerator);
 const emptyInitialState: OrderingDomainModel.Form = { guests: [] };
 const johnDoe = GuestFactory.create({ id: '1', firstName: 'John', lastName: 'Doe', age: 24 });
