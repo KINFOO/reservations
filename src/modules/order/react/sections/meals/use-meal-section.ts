@@ -62,7 +62,7 @@ export const useMeal = () => {
   }
 
   const dispatch = useAppDispatch();
-  const meals: OrderingDomainModel.Meal[] = [];
+  const meals = useSelector((state: AppState) => state.ordering.availableMeals.data);
   const mealForm = useRef(new MealForm());
 
   const initialState = useSelector((state: AppState) => state.ordering.form);
