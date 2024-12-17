@@ -1,31 +1,56 @@
+import { MealForm } from '@ratatouille/modules/order/core/form/meal.form';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
-import { useAppDispatch } from '@ratatouille/modules/store/store';
+import { AppState, useAppDispatch } from '@ratatouille/modules/store/store';
+import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const useMeal = () => {
+  function findGuest(guestId: string) {
+    return form.guests.find((guest) => guest.id === guestId);
+  }
+
   function getSelectableStarters(guestId: string): OrderingDomainModel.Meal[] {
-    return [];
+    const guest = findGuest(guestId);
+    return guest ? mealForm.current.getSelectableStarters(meals, guest) : [];
   }
 
   function getSelectableMainCourses(guestId: string): OrderingDomainModel.Meal[] {
-    return [];
+    const guest = findGuest(guestId);
+    return guest ? mealForm.current.getSelectableMainCourses(meals, guest) : [];
   }
 
   function getSelectableDesserts(guestId: string): OrderingDomainModel.Meal[] {
-    return [];
+    const guest = findGuest(guestId);
+    return guest ? mealForm.current.getSelectableDesserts(meals, guest) : [];
   }
 
   function getSelectableDrinks(guestId: string): OrderingDomainModel.Meal[] {
-    return [];
+    const guest = findGuest(guestId);
+    return guest ? mealForm.current.getSelectableDrinks(meals, guest) : [];
   }
 
-  function assignStarter(guestId: string, mealId: string) {}
-  function assignMainCourse(guestId: string, mealId: string) {}
-  function assignDessert(guestId: string, mealId: string) {}
-  function assignDrink(guestId: string, mealId: string) {}
+  function assignStarter(guestId: string, mealId: string) {
+    const nextState = mealForm.current.assignStarter(form, guestId, mealId);
+    setForm(nextState);
+  }
+
+  function assignMainCourse(guestId: string, mealId: string) {
+    const nextState = mealForm.current.assignMainCourse(form, guestId, mealId);
+    setForm(nextState);
+  }
+  function assignDessert(guestId: string, mealId: string) {
+    const nextState = mealForm.current.assignDessert(form, guestId, mealId);
+    setForm(nextState);
+  }
+
+  function assignDrink(guestId: string, mealId: string) {
+    const nextState = mealForm.current.assignDrink(form, guestId, mealId);
+    setForm(nextState);
+  }
 
   function isSubmittable() {
-    return false;
+    return mealForm.current.isSubmittable(form);
   }
 
   function onPrevious() {
@@ -37,7 +62,11 @@ export const useMeal = () => {
   }
 
   const dispatch = useAppDispatch();
-  const guests: OrderingDomainModel.Guest[] = [];
+  const meals: OrderingDomainModel.Meal[] = [];
+  const mealForm = useRef(new MealForm());
+
+  const initialState = useSelector((state: AppState) => state.ordering.form);
+  const [form, setForm] = useState<OrderingDomainModel.Form>(initialState);
 
   return {
     assignStarter,
@@ -48,7 +77,7 @@ export const useMeal = () => {
     getSelectableMainCourses,
     getSelectableDesserts,
     getSelectableDrinks,
-    guests,
+    guests: form.guests,
     isSubmittable,
     onNext,
     onPrevious,
