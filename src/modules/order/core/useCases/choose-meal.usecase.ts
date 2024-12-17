@@ -2,6 +2,6 @@ import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/order
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { AppDispatch } from '@ratatouille/modules/store/store';
 
-export const chooseGuests = (form: OrderingDomainModel.Form) => (dispatch: AppDispatch) => {
+export const chooseMeal = (form: OrderingDomainModel.Form) => (dispatch: AppDispatch) => {
   dispatch(orderingSlice.actions.chooseMeal(form));
 };
