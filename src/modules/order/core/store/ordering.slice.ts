@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type OrderingState = {
   form: OrderingDomainModel.Form;
   step: OrderingDomainModel.Step;
+  reservationStatus: 'idle' | 'loading' | 'success' | 'error';
   availableTables: {
     data: OrderingDomainModel.Table[];
     status: 'idle' | 'loading' | 'success' | 'error';
@@ -18,6 +19,7 @@ export const initialState: OrderingState = {
   availableTables: { status: 'idle', data: [] },
   availableMeals: { status: 'idle', data: [] },
   step: OrderingDomainModel.Step.GUESTS,
+  reservationStatus: 'idle',
   form: {
     guests: [],
   },
@@ -47,6 +49,15 @@ export const orderingSlice = createSlice({
     },
     handleMealsLoading(state) {
       state.availableMeals.status = 'loading';
+    },
+    handleReservationLoading(state) {
+      state.reservationStatus = 'loading';
+    },
+    handleReservationError(state) {
+      state.reservationStatus = 'error';
+    },
+    handleReservationSuccess(state) {
+      state.reservationStatus = 'success';
     },
     setStep(state, action: PayloadAction<OrderingDomainModel.Step>) {
       state.step = action.payload;

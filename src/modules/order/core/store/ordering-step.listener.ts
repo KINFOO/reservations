@@ -23,4 +23,11 @@ export const registerOrderingStepListener = (listener: ListenerMiddlewareInstanc
       api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.MEALS));
     },
   });
+
+  listener.startListening({
+    actionCreator: orderingSlice.actions.handleReservationSuccess,
+    effect: (_, api) => {
+      api.dispatch(orderingActions.setStep(OrderingDomainModel.Step.RESERVED));
+    },
+  });
 };
