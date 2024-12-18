@@ -3,7 +3,8 @@ import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/order
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { chooseMeal } from '@ratatouille/modules/order/core/useCases/choose-meal.usecase';
 import { selectForm } from '@ratatouille/modules/order/react/sections/guest/form.selector';
-import { AppState, useAppDispatch } from '@ratatouille/modules/store/store';
+import { selectMeals } from '@ratatouille/modules/order/react/sections/meals/meal.selector';
+import { useAppDispatch } from '@ratatouille/modules/store/store';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -64,7 +65,7 @@ export const useMeal = () => {
   }
 
   const dispatch = useAppDispatch();
-  const meals = useSelector((state: AppState) => state.ordering.availableMeals.data);
+  const meals = useSelector(selectMeals);
   const mealForm = useRef(new MealForm());
 
   const initialState = useSelector(selectForm);
