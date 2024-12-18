@@ -1,6 +1,5 @@
 import { GuestFactory } from '@ratatouille/modules/order/core/model/guest-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { OrderingState } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { FailingReservationGateway } from '@ratatouille/modules/order/core/testing/failing-reservation-gateway';
 import { MockReservationGateway } from '@ratatouille/modules/order/core/testing/mock-reservation-gateway';
 import { reserve } from '@ratatouille/modules/order/core/useCases/reserve.usecase';
@@ -14,7 +13,7 @@ describe('Reserve', () => {
     tableId: '1',
   };
 
-  const orderingState: OrderingState = {
+  const orderingState: OrderingDomainModel.State = {
     form: orderForm,
     step: OrderingDomainModel.Step.SUMMARY,
     reservationStatus: 'idle',
