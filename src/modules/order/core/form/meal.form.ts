@@ -1,21 +1,5 @@
-/**
- *  getSelectableStarters
- *  getSelectableMainCourses
- *  getSelectableDesserts
- *  getSelectableDrinks
- *
- * assignStarter
- * assignMainCourse
- * assignDessert
- * assignDrink
- *
- * isSubmittable
- */
-
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { produce } from 'immer';
-// import { AppState } from '@ratatouille/modules/store/store';
-// import { useSelector } from 'react-redux';
 
 export class MealForm {
   private static isMealType(meal: OrderingDomainModel.Meal, type: OrderingDomainModel.MealType): boolean {
