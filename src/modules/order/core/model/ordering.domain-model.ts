@@ -61,4 +61,24 @@ export namespace OrderingDomainModel {
       status: 'idle' | 'loading' | 'success' | 'error';
     };
   };
+
+  export type MealSummary = {
+    id: string;
+    title: string;
+  };
+
+  export type Summary = {
+    table: { id: string; title: string };
+    guests: Array<{
+      id: string;
+      name: string;
+      isOrganizer: boolean;
+      meals: {
+        starter?: MealSummary;
+        mainCourse: MealSummary;
+        dessert?: MealSummary;
+        drink?: MealSummary;
+      };
+    }>;
+  };
 }
