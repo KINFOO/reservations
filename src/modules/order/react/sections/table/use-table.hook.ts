@@ -1,7 +1,8 @@
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { chooseTable } from '@ratatouille/modules/order/core/useCases/choose-table.usecase';
-import { AppState, useAppDispatch } from '@ratatouille/modules/store/store';
+import { selectTables } from '@ratatouille/modules/order/react/sections/table/table.selector';
+import { useAppDispatch } from '@ratatouille/modules/store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -27,7 +28,7 @@ export const useTable = () => {
 
   const dispatch = useAppDispatch();
   const [assignedTableId, setAssignedTableId] = useState<string | undefined>();
-  const availableTables = useSelector((state: AppState) => state.ordering.availableTables.data);
+  const availableTables = useSelector(selectTables);
 
   return { assignedTableId, availableTables, onNext, onPrevious, assignTable, isSubmittable };
 };
