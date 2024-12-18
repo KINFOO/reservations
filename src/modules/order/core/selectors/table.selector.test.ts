@@ -1,10 +1,10 @@
-import { MealFactory } from '@ratatouille/modules/order/core/model/meal-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { selectMeals } from '@ratatouille/modules/order/react/sections/meals/meal.selector';
+import { TableFactory } from '@ratatouille/modules/order/core/model/table-factory';
+import { selectTables } from '@ratatouille/modules/order/core/selectors/table.selector';
 import { createTestState } from '@ratatouille/modules/testing/tests-environment';
 
-describe('meal selector', () => {
-  it('provides no meals when state is empty', () => {
+describe('Table selector', () => {
+  it('provides no tables when state is empty', () => {
     const emptyState: OrderingDomainModel.State = {
       availableTables: { status: 'idle', data: [] },
       availableMeals: { status: 'idle', data: [] },
@@ -16,26 +16,26 @@ describe('meal selector', () => {
     };
 
     const state = createTestState({ ordering: emptyState });
-    expect(selectMeals(state)).toEqual([]);
+    expect(selectTables(state)).toEqual([]);
   });
 
-  it('provides meals', () => {
-    const meal = MealFactory.create({ id: 'main-1', title: 'Pizza', type: OrderingDomainModel.MealType.MAIN_COURSE });
+  it('provides tables', () => {
+    const table = TableFactory.create({ id: 'table-1', title: 'Entrance', capacity: 5 });
 
     const simpleState: OrderingDomainModel.State = {
-      availableTables: { status: 'idle', data: [] },
-      availableMeals: { status: 'idle', data: [meal] },
+      availableTables: { status: 'idle', data: [table] },
+      availableMeals: { status: 'idle', data: [] },
       step: OrderingDomainModel.Step.GUESTS,
       reservationStatus: 'idle',
       form: { guests: [] },
     };
 
     const state = createTestState({ ordering: simpleState });
-    expect(selectMeals(state)).toEqual([
+    expect(selectTables(state)).toEqual([
       {
-        id: 'main-1', //
-        title: 'Pizza',
-        type: OrderingDomainModel.MealType.MAIN_COURSE,
+        id: 'table-1',
+        title: 'Entrance',
+        capacity: 5,
       },
     ]);
   });

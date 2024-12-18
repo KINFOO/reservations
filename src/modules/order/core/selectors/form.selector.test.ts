@@ -1,5 +1,5 @@
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { selectForm } from '@ratatouille/modules/order/react/sections/guest/form.selector';
+import { selectForm } from '@ratatouille/modules/order/core/selectors/form.selector';
 import { createTestState } from '@ratatouille/modules/testing/tests-environment';
 
 const orderingState: OrderingDomainModel.State = {

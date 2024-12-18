@@ -1,9 +1,9 @@
 import { MealForm } from '@ratatouille/modules/order/core/form/meal.form';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
+import { selectForm } from '@ratatouille/modules/order/core/selectors/form.selector';
+import { selectMeals } from '@ratatouille/modules/order/core/selectors/meal.selector';
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { chooseMeal } from '@ratatouille/modules/order/core/useCases/choose-meal.usecase';
-import { selectForm } from '@ratatouille/modules/order/react/sections/guest/form.selector';
-import { selectMeals } from '@ratatouille/modules/order/react/sections/meals/meal.selector';
 import { useAppDispatch } from '@ratatouille/modules/store/store';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';

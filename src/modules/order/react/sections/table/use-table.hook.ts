@@ -1,7 +1,7 @@
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
+import { selectTables } from '@ratatouille/modules/order/core/selectors/table.selector';
 import { orderingSlice } from '@ratatouille/modules/order/core/store/ordering.slice';
 import { chooseTable } from '@ratatouille/modules/order/core/useCases/choose-table.usecase';
-import { selectTables } from '@ratatouille/modules/order/react/sections/table/table.selector';
 import { useAppDispatch } from '@ratatouille/modules/store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';

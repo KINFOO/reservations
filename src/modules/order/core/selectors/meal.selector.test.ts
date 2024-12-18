@@ -1,10 +1,10 @@
+import { MealFactory } from '@ratatouille/modules/order/core/model/meal-factory';
 import { OrderingDomainModel } from '@ratatouille/modules/order/core/model/ordering.domain-model';
-import { TableFactory } from '@ratatouille/modules/order/core/model/table-factory';
-import { selectTables } from '@ratatouille/modules/order/react/sections/table/table.selector';
+import { selectMeals } from '@ratatouille/modules/order/core/selectors/meal.selector';
 import { createTestState } from '@ratatouille/modules/testing/tests-environment';
 
-describe('Table selector', () => {
-  it('provides no tables when state is empty', () => {
+describe('meal selector', () => {
+  it('provides no meals when state is empty', () => {
     const emptyState: OrderingDomainModel.State = {
       availableTables: { status: 'idle', data: [] },
       availableMeals: { status: 'idle', data: [] },
@@ -16,26 +16,26 @@ describe('Table selector', () => {
     };
 
     const state = createTestState({ ordering: emptyState });
-    expect(selectTables(state)).toEqual([]);
+    expect(selectMeals(state)).toEqual([]);
   });
 
-  it('provides tables', () => {
-    const table = TableFactory.create({ id: 'table-1', title: 'Entrance', capacity: 5 });
+  it('provides meals', () => {
+    const meal = MealFactory.create({ id: 'main-1', title: 'Pizza', type: OrderingDomainModel.MealType.MAIN_COURSE });
 
     const simpleState: OrderingDomainModel.State = {
-      availableTables: { status: 'idle', data: [table] },
-      availableMeals: { status: 'idle', data: [] },
+      availableTables: { status: 'idle', data: [] },
+      availableMeals: { status: 'idle', data: [meal] },
       step: OrderingDomainModel.Step.GUESTS,
       reservationStatus: 'idle',
       form: { guests: [] },
     };
 
     const state = createTestState({ ordering: simpleState });
-    expect(selectTables(state)).toEqual([
+    expect(selectMeals(state)).toEqual([
       {
-        id: 'table-1',
-        title: 'Entrance',
-        capacity: 5,
+        id: 'main-1', //
+        title: 'Pizza',
+        type: OrderingDomainModel.MealType.MAIN_COURSE,
       },
     ]);
   });
